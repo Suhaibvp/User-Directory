@@ -1,6 +1,8 @@
 package com.kenzo.userdictionary
 
 import android.app.AlertDialog
+import android.content.Intent
+import android.net.Uri
 import android.opengl.Visibility
 import android.os.Bundle
 import android.view.View
@@ -38,6 +40,30 @@ class UserDetails: ComponentActivity() {
         setTextView(R.id.tv_email,email)
         setTextView(R.id.tv_phNumber,phoneNumber)
         setTextView(R.id.tv_webLink,webLink)
+
+
+        val tvEmail=findViewById<TextView>(R.id.tv_email)
+        val tvPhNumber=findViewById<TextView>(R.id.tv_phNumber)
+        val tvWebLink=findViewById<TextView>(R.id.tv_webLink)
+
+        tvEmail.setOnClickListener {
+            val emIntent= Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:$email")
+            }
+            startActivity(emIntent)
+        }
+        tvPhNumber.setOnClickListener {
+            val PhIntent=Intent(Intent.ACTION_DIAL).apply {
+                data = Uri.parse("tel:$phoneNumber")
+            }
+            startActivity(PhIntent)
+        }
+        tvWebLink.setOnClickListener {
+            var url = webLink
+            url = "http://$url"
+            val WebIntent= Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            startActivity(WebIntent)
+        }
         val pb_bar=findViewById<ProgressBar>(R.id.pb_refresh)
         val recyclerView=findViewById<RecyclerView>(R.id.rv_posts)
         val btn_Back=findViewById<Button>(R.id.btn_Back)
